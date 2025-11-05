@@ -35,8 +35,6 @@ const captainModel = require('../models/captain.model');
 
   }
 
-
-  
 module.exports.authCaptain = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(' ')[ 1 ];
     
