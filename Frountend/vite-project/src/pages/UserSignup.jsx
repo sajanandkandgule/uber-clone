@@ -2,6 +2,10 @@
 import React ,{ useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { UserDataContext } from '../context/UserContext.jsx'
+
+import axios from "axios"
+
 const UserSignup = () => {
 
 
@@ -11,7 +15,13 @@ const UserSignup = () => {
   const [ lastName, setLastName ] = useState('')
   const [ userData, setUserData ] = useState({})
 
-   
+   const navigate = useNavigate()
+
+
+   const {user, setUser} = useContext(UserDataContext);
+
+   console.log("checking user from context " , user, setUser)
+
     const submitHandler = async (e) => {
     e.preventDefault()
     const newUser = {
@@ -23,15 +33,14 @@ const UserSignup = () => {
       password: password
     }
 
-  //  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
 
-    // if (response.status === 201) {
-    //   const data = response.data
-    //   setUser(data.user)
-    //   localStorage.setItem('token', data.token)
-    //   navigate('/home')
-    // }
-
+    if (response.status === 201) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home')
+    }
 
     setEmail('')
     setFirstName('')
